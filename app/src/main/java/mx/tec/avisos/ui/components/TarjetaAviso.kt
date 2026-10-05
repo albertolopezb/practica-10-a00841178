@@ -19,6 +19,10 @@ import androidx.compose.ui.unit.dp
 import mx.tec.avisos.domain.Aviso
 import mx.tec.avisos.ui.theme.AvisosTema
 import mx.tec.avisos.ui.theme.AvisosTheme
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 
 /**
  * Un aviso del tablón. Dos versiones del mismo componente:
@@ -43,6 +47,7 @@ fun TarjetaAviso(
         autor = aviso.autor,
         cuando = tiempoRelativo(aviso.creadoEn, ahora),
         nuevo = esReciente(aviso.creadoEn, ahora),
+        imagen = aviso.imagenUrl,
         modifier = modifier
     )
 }
@@ -54,7 +59,8 @@ fun TarjetaAviso(
     autor: String,
     cuando: String,
     nuevo: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imagen: Any? = null
 ) {
     val espaciado = AvisosTema.espaciado
 
@@ -62,7 +68,19 @@ fun TarjetaAviso(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-    ) {
+
+    ){ if (imagen != null) {
+        AsyncImage(
+            model = imagen,
+            contentDescription = "Imagen del aviso",
+            contentScale = ContentScale.Crop,
+            placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
+            error = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(16f / 9f)
+        )
+    }
         Column(
             modifier = Modifier.padding(espaciado.xl),
             verticalArrangement = Arrangement.spacedBy(espaciado.sm)

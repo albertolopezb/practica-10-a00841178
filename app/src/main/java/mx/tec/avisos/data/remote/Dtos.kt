@@ -37,8 +37,12 @@ data class AvisoDto(
     val titulo: String,
     val cuerpo: String,
     val autor: String,
-    val createdAt: String
+    val createdAt: String,
+    val imagen: String? = null
 )
 
 @Serializable
-data class NuevoAvisoBody(val titulo: String, val cuerpo: String)
+data class NuevoAvisoBody(val titulo: String, val cuerpo: String, val imagen: String? = null)
+
+@Serializable
+data class ImagenDto(val id: String, val tipo: String, val bytes: Int)
